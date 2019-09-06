@@ -17,6 +17,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static java.lang.String.valueOf;
+
 public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
     private static final String TAG = "myDebug";
@@ -78,7 +80,34 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
                                 if(endSecondsFromMidnight > startSecondsFromMidnight){
 
-                                    tvCalculation.setText(String.valueOf(startSecondsFromMidnight) + " " + String.valueOf(endSecondsFromMidnight));
+                                    int difference = endSecondsFromMidnight - startSecondsFromMidnight;
+                                    int p1 = difference % 60;
+                                    int p2 = difference / 60;
+                                    int p3 = p2 % 60;
+                                    p2 = p2 / 60;
+                                    String sP1;
+                                    String sP2;
+                                    String sP3;
+
+                                    if(p1 < 10) {
+                                        sP1 = "0" + String.valueOf(p1);
+                                    }else{
+                                        sP1 = String.valueOf(p1);
+                                    }
+                                    if(p2 < 10){
+                                        sP2 = "0" + String.valueOf(p2);
+                                    }else{
+                                        sP2 = String.valueOf(p2);
+                                    }
+                                    if(p3 < 10){
+                                        sP3 = "0" + String.valueOf(p3);
+                                    }else{
+                                        sP3 = String.valueOf(p3);
+                                    }
+
+                                    tvCalculation.setText(valueOf(difference) + " " + "=" + " " + sP2 + ":" + sP3 + ":" + sP1);
+
+                                    Log.d(TAG, "Successful input to user.");
                                 }
                                 else{
                                     Toast.makeText(MainActivity.this, "End time must be later than start time.", Toast.LENGTH_LONG).show();
@@ -102,20 +131,6 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                     Log.d(TAG, "Could not parse start.");
                     Toast.makeText(MainActivity.this, "Please use format 00:00:00 on time start.", Toast.LENGTH_LONG).show();
                 }
-
-
-
-                //String hour = etStart.getText().toString().substring(0,2).replaceFirst("^0+(?!$)", "");
-                //String minute = etStart.getText().toString().substring(3,5).replaceFirst("^0+(?!$)", "");
-                //String second = etStart.getText().toString().substring(6).replaceFirst("^0+(?!$)", "");
-
-
-                    /*Date startTime = simpleDateFormat.parse(etStart.getText().toString());
-                    Date endTime = simpleDateFormat.parse(etEnd.getText().toString());
-                    long difference = startTime.getTime() - endTime.getTime();
-                    tvCalculation.setText((int) difference);*/
-
-                    //.replaceFirst("^0+(?!$)", "")
             }
         });
     }
